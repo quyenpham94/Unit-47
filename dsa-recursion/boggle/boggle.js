@@ -50,9 +50,34 @@ function makeBoard(boardString) {
   return board;
 }
 
+function findFrom(board, word, y, x, seen) {
+  if (board[y][x] != word[0]) return false;
+
+  if (seen.has(y + "-" + x)) return false;
+
+  if (word.length === 1) return true;
+
+  seen = new Set(seen);
+  seen.add(y + "-" + x);
+  
+  if (y > 0 && findFrom(board, word.slice(1), y - 1, x, seen)) return true;
+  if (y < 4 && findFrom(board, word.slice(1), y - 1, x, seen)) return true;
+  if (x > 0 && findFrom(board, word.slice(1), y, x - 1, seen)) return true;
+  if (x < 4 && findFrom(board, word.slice(1), y, x + 1, seen)) return true;
+
+  return false;
+}
+
 function find(board, word) {
   /** Can word be found in board? */
-  // TODO
+  // Find starting letter --- try every spot on board and, 
+  // win fast, should we find the word at that place.
+
+  for (let y = 0; y < 5; y++) 
+    for (let x = 0; x < 5; x++)
+      if(findFrom(board, word, y, x, new Set())) return true;
+
+  return false;
 }
 
 // EXAMPLE TEST
