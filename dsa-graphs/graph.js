@@ -102,7 +102,65 @@ class Graph {
   }
 
   // this function returns an array of Node values using BFS
-  breadthFirstSearch(start) {}
+  breadthFirstSearch(start) {
+    // Create an empty queue
+    const queue = [start];
+    const result = [];
+    const visited = new Set();
+    let currentVertex;
+
+    // visit node
+    visited.add(start);
+
+    // While there is still remaining vertices in queue
+    while (queue.length) {
+      currentVertex = queue.shift();
+      result.push(currentVertex.value);
+
+      // visit neighbors
+      currentVertex.adjacent.forEach(neighbor => {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      });
+    }
+    return result;
+  }
+
+  shortestPath(start, end) {
+    if (start === end) {
+      return [start.value];
+    }
+
+    var queue = [start];
+    let visited = new Set();
+    let predecessors = {};
+    let path = [];
+
+    while (queue.length) {
+      let currentVertex = queue.shift();
+
+      if (currentVertex === end) {
+        let stop = predecessors[end.value];
+        while (stop) {
+          path.push(stop);
+          stop = predecessors[stop];
+        }
+        path.unshift(start.value);
+        path.reverse();
+        return path;
+      }
+
+      visited.add(currentVertex);
+      for (let vertex of currentVertex.adjacent) {
+        if (!visited.has(vertex)) {
+          predecessors[vertex.value] = currentVertex.value;
+          queue.push(vertex);
+        }
+      }
+    }
+  }
 }
 
 module.exports = {Graph, Node}
