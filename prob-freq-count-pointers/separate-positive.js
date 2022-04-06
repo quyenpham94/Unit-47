@@ -6,7 +6,7 @@ function separatePositive(nums) {
     while (start < end) {
         if (nums[start] < 0 && nums[end] > 0) {
             var temp = nums[start];
-            nums[starts] = nums[end];
+            nums[start] = nums[end];
             nums[end] = temp;
 
             start += 1;

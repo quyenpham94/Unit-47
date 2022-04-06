@@ -20,7 +20,7 @@ function constructNote(message, letters) {
     }
 
     // final comparison of message frequency with letters frequency
-    for (let char in message) {
+    for (let char in messageFreq) {
         if (!lettersFreq[char]) {
             return false;
         }
